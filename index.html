@@ -101,37 +101,5 @@
 </body>
 </html>
 
-<form id="upload-form" enctype="multipart/form-data">
-    <input type="file" name="images" multiple accept="image/*" required>
-    <button type="submit">Upload Images</button>
-</form>
 
-<script>
-    document.getElementById('upload-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const formData = new FormData(this);
-        fetch('/upload', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Load the new GLB model into the 3D viewer
-            loadNewModel(data.modelUrl);
-        })
-        .catch(error => console.error('Error:', error));
-    });
-
-    function loadNewModel(modelUrl) {
-        const loader = new THREE.GLTFLoader();
-        loader.load(modelUrl, function(gltf) {
-            // Remove existing model if necessary
-            if (existingModel) {
-                scene.remove(existingModel);
-            }
-            existingModel = gltf.scene;
-            scene.add(existingModel);
-        });
-    }
-</script>
 
